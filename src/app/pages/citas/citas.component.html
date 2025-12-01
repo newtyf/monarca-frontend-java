@@ -1,0 +1,138 @@
+<div class="container-fluid py-4">
+  <h1 class="mb-4">Gestión de Citas</h1>
+
+  <!-- Formulario -->
+  <div class="card mb-4">
+    <div class="card-header bg-warning">
+      <h5 class="mb-0">{{ isEditing ? 'Editar Cita' : 'Nueva Cita' }}</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="citaForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="id_cliente" class="form-label">ID Cliente *</label>
+            <input type="number" id="id_cliente" formControlName="id_cliente" class="form-control"
+              [class.is-invalid]="citaForm.get('id_cliente')?.invalid && citaForm.get('id_cliente')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('id_cliente')?.invalid && citaForm.get('id_cliente')?.touched">
+              ID Cliente es requerido
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="id_servicio" class="form-label">ID Servicio *</label>
+            <input type="number" id="id_servicio" formControlName="id_servicio" class="form-control"
+              [class.is-invalid]="citaForm.get('id_servicio')?.invalid && citaForm.get('id_servicio')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('id_servicio')?.invalid && citaForm.get('id_servicio')?.touched">
+              ID Servicio es requerido
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="id_user" class="form-label">ID Usuario *</label>
+            <input type="number" id="id_user" formControlName="id_user" class="form-control"
+              [class.is-invalid]="citaForm.get('id_user')?.invalid && citaForm.get('id_user')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('id_user')?.invalid && citaForm.get('id_user')?.touched">
+              ID Usuario es requerido
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="fecha_hora" class="form-label">Fecha y Hora *</label>
+            <input type="datetime-local" id="fecha_hora" formControlName="fecha_hora" class="form-control"
+              [class.is-invalid]="citaForm.get('fecha_hora')?.invalid && citaForm.get('fecha_hora')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('fecha_hora')?.invalid && citaForm.get('fecha_hora')?.touched">
+              Fecha y hora son requeridas
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="duracion_estimada" class="form-label">Duración Estimada (min)</label>
+            <input type="number" id="duracion_estimada" formControlName="duracion_estimada" class="form-control">
+          </div>
+
+          <div class="col-md-4">
+            <label for="estado" class="form-label">Estado</label>
+            <select id="estado" formControlName="estado" class="form-select">
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="en_proceso">En Proceso</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+              <option value="no_asistio">No Asistió</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="notas" class="form-label">Notas</label>
+            <textarea id="notas" formControlName="notas" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <button type="submit" class="btn btn-warning" [disabled]="citaForm.invalid">
+            <i class="bi bi-save"></i> {{ isEditing ? 'Actualizar' : 'Guardar' }}
+          </button>
+          <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="isEditing">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card">
+    <div class="card-header bg-warning">
+      <h5 class="mb-0">Lista de Citas</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Servicio</th>
+              <th>Usuario</th>
+              <th>Fecha y Hora</th>
+              <th>Duración</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cita of citas">
+              <td>{{ cita.id_cita }}</td>
+              <td>{{ cita.id_cliente }}</td>
+              <td>{{ cita.id_servicio }}</td>
+              <td>{{ cita.id_user }}</td>
+              <td>{{ cita.fecha_hora | date:'short' }}</td>
+              <td>{{ cita.duracion_estimada || 'N/A' }} min</td>
+              <td>
+                <span class="badge bg-{{ 
+                  cita.estado === 'completada' ? 'success' : 
+                  cita.estado === 'confirmada' ? 'primary' : 
+                  cita.estado === 'en_proceso' ? 'info' : 
+                  cita.estado === 'pendiente' ? 'warning' : 
+                  'danger' }}">
+                  {{ cita.estado }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-warning btn-sm me-1" (click)="editCita(cita)">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteCita(cita.id_cita!)">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="citas.length === 0">
+              <td colspan="8" class="text-center text-muted">No hay citas registradas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

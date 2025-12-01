@@ -1,0 +1,9 @@
+/* Estilos mínimos con Bootstrap por defecto */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-link.active {
+  font-weight: 600;
+}
