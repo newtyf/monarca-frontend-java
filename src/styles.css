@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos Globales - Monarca Spa */
+:root {
+  --primary: #e91e63;
+  --primary-dark: #c2185b;
+}
+
+body {
+  background-color: #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cards */
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.card-header {
+  background: var(--primary) !important;
+  color: white !important;
+  font-weight: 700;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+/* Tables */
+.table-hover tbody tr:hover {
+  background-color: rgba(233, 30, 99, 0.05);
+}
+
+.table-dark {
+  background-color: #343a40 !important;
+}
+
+/* Badges personalizados */
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.tag-green {
+  background-color: #28a745 !important;
+  color: white;
+}
+
+.tag-yellow {
+  background-color: #ffc107 !important;
+  color: #000;
+}
+
+.tag-red {
+  background-color: #dc3545 !important;
+}
+
+.tag-gray {
+  background-color: #6c757d !important;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}

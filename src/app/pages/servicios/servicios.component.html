@@ -3,8 +3,8 @@
 
   <!-- Formulario -->
   <div class="card mb-4">
-    <div class="card-header bg-success">
-      <h5 class="mb-0">{{ isEditing ? 'Editar Servicio' : 'Nuevo Servicio' }}</h5>
+    <div class="card-header">
+      <h5 class="mb-0"><i class="bi bi-scissors"></i> {{ isEditing ? 'Editar Servicio' : 'Nuevo Servicio' }}</h5>
     </div>
     <div class="card-body">
       <form [formGroup]="servicioForm" (ngSubmit)="onSubmit()">
@@ -19,10 +19,10 @@
           </div>
 
           <div class="col-md-3">
-            <label for="duracion_min" class="form-label">Duración (min) *</label>
-            <input type="number" id="duracion_min" formControlName="duracion_min" class="form-control"
-              [class.is-invalid]="servicioForm.get('duracion_min')?.invalid && servicioForm.get('duracion_min')?.touched">
-            <div class="invalid-feedback" *ngIf="servicioForm.get('duracion_min')?.invalid && servicioForm.get('duracion_min')?.touched">
+            <label for="duracionMin" class="form-label">Duración (min) *</label>
+            <input type="number" id="duracionMin" formControlName="duracionMin" class="form-control"
+              [class.is-invalid]="servicioForm.get('duracionMin')?.invalid && servicioForm.get('duracionMin')?.touched">
+            <div class="invalid-feedback" *ngIf="servicioForm.get('duracionMin')?.invalid && servicioForm.get('duracionMin')?.touched">
               Duración es requerida
             </div>
           </div>
@@ -64,8 +64,8 @@
 
   <!-- Tabla -->
   <div class="card">
-    <div class="card-header bg-success">
-      <h5 class="mb-0">Lista de Servicios</h5>
+    <div class="card-header">
+      <h5 class="mb-0"><i class="bi bi-grid"></i> Lista de Servicios</h5>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -83,9 +83,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let servicio of servicios">
-              <td>{{ servicio.id_servicio }}</td>
+              <td>{{ servicio.idServicio }}</td>
               <td>{{ servicio.nombre }}</td>
-              <td>{{ servicio.duracion_min }}</td>
+              <td>{{ servicio.duracionMin }}</td>
               <td>${{ servicio.precio }}</td>
               <td>
                 <span class="badge bg-{{ servicio.estado === 'activo' ? 'success' : 'secondary' }}">
@@ -97,7 +97,7 @@
                 <button class="btn btn-warning btn-sm me-1" (click)="editServicio(servicio)">
                   <i class="bi bi-pencil"></i> Editar
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="deleteServicio(servicio.id_servicio!)">
+                <button class="btn btn-danger btn-sm" (click)="deleteServicio(servicio.idServicio!)">
                   <i class="bi bi-trash"></i> Eliminar
                 </button>
               </td>

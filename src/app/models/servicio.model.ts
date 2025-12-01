@@ -1,11 +1,11 @@
 export interface Servicio {
-  id_servicio?: number;
-  id_categoria?: number;
+  idServicio?: number;
+  idCategoria?: number;
   nombre: string;
   descripcion?: string;
-  duracion_min: number;
+  duracionMin: number;
   precio: number;
   estado?: 'activo' | 'inactivo';
-  fecha_creacion?: string;
-  fecha_actualizacion?: string;
+  fechaCreacion?: string;
+  fechaActualizacion?: string;
 }

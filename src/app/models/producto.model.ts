@@ -1,14 +1,14 @@
 export interface Producto {
-  id_producto?: number;
+  idProducto?: number;
   nombre: string;
   descripcion?: string;
   marca?: string;
   categoria?: string;
   stock: number;
-  stock_minimo?: number;
+  stockMinimo?: number;
   precio: number;
   proveedor?: string;
   estado?: 'disponible' | 'agotado' | 'descontinuado';
-  fecha_creacion?: string;
-  fecha_actualizacion?: string;
+  fechaCreacion?: string;
+  fechaActualizacion?: string;
 }

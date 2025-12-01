@@ -1,6 +1,8 @@
-export interface Cita {
+import { Cliente } from './cliente.model';
+
+export interface CitaConCliente {
   idCita?: number;
-  idCliente: number;
+  idCliente?: number;
   idServicio: number;
   idUser: number;
   fechaHora: string;
@@ -9,4 +11,5 @@ export interface Cita {
   notas?: string;
   fechaCreacion?: string;
   fechaActualizacion?: string;
+  cliente?: Cliente;
 }

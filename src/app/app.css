@@ -1,9 +1,26 @@
-/* Estilos mínimos con Bootstrap por defecto */
+/* Navbar - Monarca Spa */
+.navbar {
+  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 .navbar-brand {
+  color: white !important;
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.nav-link.active {
+.nav-link {
+  color: white !important;
   font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  text-decoration: underline;
 }

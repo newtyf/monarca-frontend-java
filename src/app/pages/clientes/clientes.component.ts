@@ -25,7 +25,7 @@ export class ClientesComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(150)]],
       email: ['', [Validators.email, Validators.maxLength(100)]],
       telefono: ['', [Validators.required, Validators.maxLength(20)]],
-      fecha_nacimiento: [''],
+      fechaNacimiento: [''],
       genero: [''],
       direccion: ['', Validators.maxLength(255)],
       notas: ['']
@@ -69,7 +69,7 @@ export class ClientesComponent implements OnInit {
 
   editCliente(cliente: Cliente) {
     this.isEditing = true;
-    this.editingId = cliente.id_cliente!;
+    this.editingId = cliente.idCliente!;
     this.clienteForm.patchValue(cliente);
   }
 

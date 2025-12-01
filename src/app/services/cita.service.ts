@@ -2,17 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cita } from '../models/cita.model';
+import { CitaConCliente } from '../models/cita-con-cliente.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CitaService {
-  private apiUrl = 'http://localhost:8080/api/citas';
+  private apiUrl = 'http://localhost:8083/api/citas';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Cita[]> {
     return this.http.get<Cita[]>(this.apiUrl);
+  }
+
+  getCitasConClientes(): Observable<CitaConCliente[]> {
+    return this.http.get<CitaConCliente[]>(`${this.apiUrl}/con-cliente`);
   }
 
   getById(id: number): Observable<Cita> {

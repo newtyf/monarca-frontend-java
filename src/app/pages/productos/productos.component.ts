@@ -27,7 +27,7 @@ export class ProductosComponent implements OnInit {
       marca: ['', Validators.maxLength(50)],
       categoria: ['', Validators.maxLength(50)],
       stock: ['', [Validators.required, Validators.min(0)]],
-      stock_minimo: [10, Validators.min(0)],
+      stockMinimo: [10, Validators.min(0)],
       precio: ['', [Validators.required, Validators.min(0)]],
       proveedor: ['', Validators.maxLength(100)],
       estado: ['disponible']
@@ -71,7 +71,7 @@ export class ProductosComponent implements OnInit {
 
   editProducto(producto: Producto) {
     this.isEditing = true;
-    this.editingId = producto.id_producto!;
+    this.editingId = producto.idProducto!;
     this.productoForm.patchValue(producto);
   }
 
@@ -85,7 +85,7 @@ export class ProductosComponent implements OnInit {
   }
 
   resetForm() {
-    this.productoForm.reset({ estado: 'disponible', stock_minimo: 10 });
+    this.productoForm.reset({ estado: 'disponible', stockMinimo: 10 });
     this.isEditing = false;
     this.editingId = null;
   }

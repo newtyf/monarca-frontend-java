@@ -1,53 +1,51 @@
 <div class="container-fluid py-4">
   <h1 class="mb-4">Gestión de Citas</h1>
 
+  <!-- Alerta de Error -->
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <strong>Error:</strong> {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
+  </div>
+
   <!-- Formulario -->
   <div class="card mb-4">
-    <div class="card-header bg-warning">
-      <h5 class="mb-0">{{ isEditing ? 'Editar Cita' : 'Nueva Cita' }}</h5>
+    <div class="card-header">
+      <h5 class="mb-0"><i class="bi bi-calendar-plus"></i> {{ isEditing ? 'Editar Cita' : 'Nueva Cita' }}</h5>
     </div>
     <div class="card-body">
       <form [formGroup]="citaForm" (ngSubmit)="onSubmit()">
         <div class="row g-3">
-          <div class="col-md-4">
-            <label for="id_cliente" class="form-label">ID Cliente *</label>
-            <input type="number" id="id_cliente" formControlName="id_cliente" class="form-control"
-              [class.is-invalid]="citaForm.get('id_cliente')?.invalid && citaForm.get('id_cliente')?.touched">
-            <div class="invalid-feedback" *ngIf="citaForm.get('id_cliente')?.invalid && citaForm.get('id_cliente')?.touched">
+          <div class="col-md-6">
+            <label for="idCliente" class="form-label">ID Cliente *</label>
+            <input type="number" id="idCliente" formControlName="idCliente" class="form-control"
+              [class.is-invalid]="citaForm.get('idCliente')?.invalid && citaForm.get('idCliente')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('idCliente')?.invalid && citaForm.get('idCliente')?.touched">
               ID Cliente es requerido
             </div>
           </div>
 
-          <div class="col-md-4">
-            <label for="id_servicio" class="form-label">ID Servicio *</label>
-            <input type="number" id="id_servicio" formControlName="id_servicio" class="form-control"
-              [class.is-invalid]="citaForm.get('id_servicio')?.invalid && citaForm.get('id_servicio')?.touched">
-            <div class="invalid-feedback" *ngIf="citaForm.get('id_servicio')?.invalid && citaForm.get('id_servicio')?.touched">
+          <div class="col-md-6">
+            <label for="idServicio" class="form-label">ID Servicio *</label>
+            <input type="number" id="idServicio" formControlName="idServicio" class="form-control"
+              [class.is-invalid]="citaForm.get('idServicio')?.invalid && citaForm.get('idServicio')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('idServicio')?.invalid && citaForm.get('idServicio')?.touched">
               ID Servicio es requerido
             </div>
           </div>
 
           <div class="col-md-4">
-            <label for="id_user" class="form-label">ID Usuario *</label>
-            <input type="number" id="id_user" formControlName="id_user" class="form-control"
-              [class.is-invalid]="citaForm.get('id_user')?.invalid && citaForm.get('id_user')?.touched">
-            <div class="invalid-feedback" *ngIf="citaForm.get('id_user')?.invalid && citaForm.get('id_user')?.touched">
-              ID Usuario es requerido
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <label for="fecha_hora" class="form-label">Fecha y Hora *</label>
-            <input type="datetime-local" id="fecha_hora" formControlName="fecha_hora" class="form-control"
-              [class.is-invalid]="citaForm.get('fecha_hora')?.invalid && citaForm.get('fecha_hora')?.touched">
-            <div class="invalid-feedback" *ngIf="citaForm.get('fecha_hora')?.invalid && citaForm.get('fecha_hora')?.touched">
+            <label for="fechaHora" class="form-label">Fecha y Hora *</label>
+            <input type="datetime-local" id="fechaHora" formControlName="fechaHora" class="form-control"
+              [class.is-invalid]="citaForm.get('fechaHora')?.invalid && citaForm.get('fechaHora')?.touched">
+            <div class="invalid-feedback" *ngIf="citaForm.get('fechaHora')?.invalid && citaForm.get('fechaHora')?.touched">
               Fecha y hora son requeridas
             </div>
           </div>
 
           <div class="col-md-4">
-            <label for="duracion_estimada" class="form-label">Duración Estimada (min)</label>
-            <input type="number" id="duracion_estimada" formControlName="duracion_estimada" class="form-control">
+            <label for="duracionEstimada" class="form-label">Duración Estimada (min)</label>
+            <input type="number" id="duracionEstimada" formControlName="duracionEstimada" class="form-control">
           </div>
 
           <div class="col-md-4">
@@ -82,8 +80,8 @@
 
   <!-- Tabla -->
   <div class="card">
-    <div class="card-header bg-warning">
-      <h5 class="mb-0">Lista de Citas</h5>
+    <div class="card-header">
+      <h5 class="mb-0"><i class="bi bi-calendar-week"></i> Lista de Citas</h5>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -102,12 +100,19 @@
           </thead>
           <tbody>
             <tr *ngFor="let cita of citas">
-              <td>{{ cita.id_cita }}</td>
-              <td>{{ cita.id_cliente }}</td>
-              <td>{{ cita.id_servicio }}</td>
-              <td>{{ cita.id_user }}</td>
-              <td>{{ cita.fecha_hora | date:'short' }}</td>
-              <td>{{ cita.duracion_estimada || 'N/A' }} min</td>
+              <td>{{ cita.idCita }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="me-2">{{ cita.cliente?.nombre || 'Cliente #' + cita.idCliente }}</span>
+                  <button class="btn btn-info btn-sm" (click)="showClienteModal(cita.cliente!)" *ngIf="cita.cliente" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                    <i class="bi bi-info-circle"></i> Ver más
+                  </button>
+                </div>
+              </td>
+              <td>{{ cita.idServicio }}</td>
+              <td>{{ cita.idUser }}</td>
+              <td>{{ cita.fechaHora | date:'short' }}</td>
+              <td>{{ cita.duracionEstimada || 'N/A' }} min</td>
               <td>
                 <span class="badge bg-{{ 
                   cita.estado === 'completada' ? 'success' : 
@@ -122,7 +127,7 @@
                 <button class="btn btn-warning btn-sm me-1" (click)="editCita(cita)">
                   <i class="bi bi-pencil"></i> Editar
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="deleteCita(cita.id_cita!)">
+                <button class="btn btn-danger btn-sm" (click)="deleteCita(cita.idCita!)">
                   <i class="bi bi-trash"></i> Eliminar
                 </button>
               </td>
@@ -132,6 +137,57 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cliente -->
+<div class="modal fade" id="clienteModal" tabindex="-1" aria-labelledby="clienteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <h5 class="modal-title" id="clienteModalLabel">Información del Cliente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedCliente">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <strong>ID Cliente:</strong>
+            <p>{{ selectedCliente.idCliente }}</p>
+          </div>
+          <div class="col-md-6">
+            <strong>Nombre:</strong>
+            <p>{{ selectedCliente.nombre }}</p>
+          </div>
+          <div class="col-md-6">
+            <strong>Email:</strong>
+            <p>{{ selectedCliente.email || 'N/A' }}</p>
+          </div>
+          <div class="col-md-6">
+            <strong>Teléfono:</strong>
+            <p>{{ selectedCliente.telefono }}</p>
+          </div>
+          <div class="col-md-6">
+            <strong>Fecha de Nacimiento:</strong>
+            <p>{{ selectedCliente.fechaNacimiento || 'N/A' }}</p>
+          </div>
+          <div class="col-md-6">
+            <strong>Género:</strong>
+            <p>{{ selectedCliente.genero || 'N/A' }}</p>
+          </div>
+          <div class="col-12">
+            <strong>Dirección:</strong>
+            <p>{{ selectedCliente.direccion || 'N/A' }}</p>
+          </div>
+          <div class="col-12" *ngIf="selectedCliente.notas">
+            <strong>Notas:</strong>
+            <p>{{ selectedCliente.notas }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Cerrar</button>
       </div>
     </div>
   </div>

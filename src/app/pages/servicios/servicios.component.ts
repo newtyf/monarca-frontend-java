@@ -24,7 +24,7 @@ export class ServiciosComponent implements OnInit {
     this.servicioForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
       descripcion: [''],
-      duracion_min: ['', [Validators.required, Validators.min(1)]],
+      duracionMin: ['', [Validators.required, Validators.min(1)]],
       precio: ['', [Validators.required, Validators.min(0)]],
       estado: ['activo']
     });
@@ -67,7 +67,7 @@ export class ServiciosComponent implements OnInit {
 
   editServicio(servicio: Servicio) {
     this.isEditing = true;
-    this.editingId = servicio.id_servicio!;
+    this.editingId = servicio.idServicio!;
     this.servicioForm.patchValue(servicio);
   }
 
